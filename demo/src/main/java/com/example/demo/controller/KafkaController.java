@@ -1,6 +1,6 @@
-package com.example.demo.kafka.controller;
+package com.example.demo.controller;
 
-import com.example.demo.kafka.service.KafkaProducerService;
+import com.example.demo.service.KafkaProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
