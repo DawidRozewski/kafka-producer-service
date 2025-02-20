@@ -20,4 +20,14 @@ public class KafkaController {
         return "Message has been sent: " + message;
     }
 
+    @GetMapping("/admin")
+    public String helloAdmin() {
+        return "Kafka-Producer-Service: Hello admin";
+    }
+
+    @GetMapping("/user")
+    public String helloUser() {
+        return "Kafka-Producer-Service: Hello user";
+    }
+
 }
