@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/kafka")
+@RequestMapping("/producer")
 public class KafkaController {
 
     private final KafkaProducerService kafkaProducerService;
