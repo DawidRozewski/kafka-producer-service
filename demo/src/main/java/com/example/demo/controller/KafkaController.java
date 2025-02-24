@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.service.KafkaProducerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,13 +22,13 @@ public class KafkaController {
     }
 
     @GetMapping("/admin")
-    public String helloAdmin() {
-        return "Kafka-Producer-Service: Hello admin";
+    public String adminAccess() {
+        return "Kafka-Producer-Service: Access granted for admin!";
     }
 
     @GetMapping("/user")
-    public String helloUser() {
-        return "Kafka-Producer-Service: Hello user";
+    public String userAccess() {
+        return "Kafka-Producer-Service: Access granted for user!";
     }
 
 }

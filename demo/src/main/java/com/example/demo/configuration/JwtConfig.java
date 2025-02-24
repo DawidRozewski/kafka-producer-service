@@ -11,8 +11,10 @@ public class JwtConfig {
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder
-                .withJwkSetUri("http://localhost:8085/realms/testrealm/protocol/openid-connect/certs")
+                .withJwkSetUri("http://localhost:8085/realms/master/protocol/openid-connect/certs")
                 .build();
     }
+
+
 }
 
