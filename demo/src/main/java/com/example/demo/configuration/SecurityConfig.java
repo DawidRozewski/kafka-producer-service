@@ -15,8 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final JwtConverter jwtConverter;
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth -> auth
@@ -25,8 +23,14 @@ public class SecurityConfig {
                         .requestMatchers("/producer/user").hasRole("USER")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(
-                        jwt -> jwt.jwtAuthenticationConverter(jwtConverter)));
+                        jwt -> jwt.jwtAuthenticationConverter(jwtConverter())));
 
         return httpSecurity.build();
+    }
+
+
+    @Bean
+    public JwtConverter jwtConverter() {
+        return new JwtConverter(new KeycloakRoleConverter());
     }
 }
