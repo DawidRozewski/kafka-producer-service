@@ -1,27 +1,5 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: kafka-producer-service
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
-logging:
-  level:
-    org.springframework.security: INFO
-    org.springframework.web: INFO
-    org.springframework.security.oauth2: INFO
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    prefer-ip-address: true
-    hostname: localhost
+  config:
+    import: optional:configserver:http://localhost:8888
