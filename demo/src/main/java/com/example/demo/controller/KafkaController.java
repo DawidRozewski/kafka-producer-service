@@ -1,11 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.controller.dto.MessageDto;
 import com.example.demo.service.KafkaProducerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,10 +19,10 @@ public class KafkaController {
 
     private final KafkaProducerService kafkaProducerService;
 
-    @GetMapping("/send")
-    public void sendMessage(@RequestParam String message) {
-        kafkaProducerService.sendMessage(message);
-        log.info("Message has been sent: {}", message);
+    @PostMapping("/send")
+    public void sendMessage(@Valid @RequestBody MessageDto messageDto) {
+        kafkaProducerService.sendMessage(messageDto);
+        log.info("Message sent: {}", messageDto.content());
     }
 
     @GetMapping("/admin")

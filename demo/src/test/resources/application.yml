@@ -5,6 +5,7 @@ spring:
     config:
       enabled: false
   kafka:
+    topic: test-topic
     bootstrap-servers: ${spring.embedded.kafka.brokers}
     consumer:
       group-id: test-group
@@ -13,7 +14,7 @@ spring:
       retries: 3
     properties:
       key.serializer: org.apache.kafka.common.serialization.StringSerializer
-      value.serializer: org.apache.kafka.common.serialization.StringSerializer
+      value.serializer: org.apache.kafka.common.serialization.JsonSerializer
 
 
 eureka:
