@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestControllerAdvice
@@ -19,20 +21,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(KafkaException.class)
     public ResponseEntity<ErrorResponse> handleKafkaException(KafkaException ex) {
-        var errorResponse = new ErrorResponse
-                (INTERNAL_SERVER_ERROR, "Kafka error: " + ex.getMessage());
-
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(errorResponse);
+        return buildErrorResponse(INTERNAL_SERVER_ERROR, "Kafka error: " + ex.getMessage());
     }
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
-        var errorResponse = new ErrorResponse(
-                HttpStatus.BAD_REQUEST, "Validation failed: " + ex.getBindingResult().getFieldError().getDefaultMessage()
-        );
+        return buildErrorResponse(BAD_REQUEST,"Validation failed: " + ex.getBindingResult().getFieldError().getDefaultMessage());
+    }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+        log.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+        return buildErrorResponse(INTERNAL_SERVER_ERROR,"Unexpected error: " + ex.getMessage());
+    }
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(HttpStatus status, String message) {
+        return ResponseEntity.status(status).body(new ErrorResponse(status, message));
     }
 
     @Getter
@@ -40,13 +44,14 @@ public class GlobalExceptionHandler {
         private final LocalDateTime timestamp;
         private final int status;
         private final String error;
-        private final String message;
 
+        private final String message;
         public ErrorResponse(HttpStatus status, String message) {
             this.timestamp = LocalDateTime.now();
             this.status = status.value();
             this.error = status.getReasonPhrase();
             this.message = message;
         }
+
     }
 }
