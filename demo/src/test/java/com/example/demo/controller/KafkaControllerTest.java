@@ -16,6 +16,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,15 +32,16 @@ class KafkaControllerTest extends AbstractConfiguredTest {
     @WithMockUser(roles = "USER")
     void givenUserWithUserRole_whenAccessingUserEndpoint_thenShouldGrantAccess() throws Exception {
         mockMvc.perform(get(USER_ACCESS_ENDPOINT))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(content().string("Kafka-Producer-Service: Access granted for user!"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     void givenUserWithAdminRole_whenAccessingAdminEndpoint_thenShouldGrantAccess() throws Exception {
         mockMvc.perform(get(ADMIN_ACCESS_ENDPOINT))
-                .andExpect(status().isOk());
-
+                .andExpect(status().isOk())
+                .andExpect(content().string("Kafka-Producer-Service: Access granted for admin!"));
     }
 
     @Test

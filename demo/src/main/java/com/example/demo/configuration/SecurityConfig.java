@@ -21,6 +21,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/actuator/*").permitAll()
                         .requestMatchers("/producer/send").permitAll()
                         .requestMatchers("/producer/admin").hasRole("ADMIN")
                         .requestMatchers("/producer/user").hasRole("USER")
@@ -30,7 +31,6 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
-
 
     @Bean
     public JwtConverter jwtConverter() {

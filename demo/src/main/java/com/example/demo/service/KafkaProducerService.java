@@ -22,18 +22,19 @@ public class KafkaProducerService {
     private String topic;
 
     public CompletableFuture<Void> sendMessage(MessageDto messageDto) {
-        log.info("Sending message to topic [{}]: {}", topic, messageDto.content());
         return sendMessageToKafka(messageDto.content())
                 .exceptionally(ex -> handleSendFailure(messageDto.content(), ex));
     }
 
     private CompletableFuture<Void> sendMessageToKafka(String message) {
-        return kafkaTemplate.send(topic, message).thenAccept(this::logSuccessMessage);
+        return kafkaTemplate.send(topic, message)
+                .thenAccept(this::logSuccessMessage);
     }
 
     private void logSuccessMessage(SendResult<String, String> result) {
-        log.info("Message [{}] sent successfully to partition {} with offset {}",
+        log.info("Message [{}] sent successfully to topic {} partition {} with offset {}",
                 result.getProducerRecord().value(),
+                result.getProducerRecord().topic(),
                 result.getRecordMetadata().partition(),
                 result.getRecordMetadata().offset());
     }
@@ -49,5 +50,6 @@ public class KafkaProducerService {
     private void logFailureMessage(String topic, String message, Throwable ex) {
         log.error("Failed to send message [{}] to topic [{}] due to: {}", message, topic, ex.getMessage());
     }
+
 }
 

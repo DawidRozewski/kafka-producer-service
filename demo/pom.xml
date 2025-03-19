@@ -18,11 +18,11 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <spring-cloud.version>2024.0.0</spring-cloud.version>
         <xstream.version>1.4.21</xstream.version>
         <lombok.version>1.18.30</lombok.version>
-        <maven-compile.version>3.11.0</maven-compile.version>
+        <maven-compile.version>3.14.0</maven-compile.version>
     </properties>
 
     <dependencies>
@@ -93,16 +93,6 @@
             <artifactId>aspectjweaver</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-contract-stub-runner</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -124,8 +114,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compile.version}</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -133,6 +121,7 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <release>${java.version}</release>
                 </configuration>
             </plugin>
             <plugin>

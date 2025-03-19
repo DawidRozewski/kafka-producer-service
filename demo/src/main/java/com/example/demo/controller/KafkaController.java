@@ -5,6 +5,7 @@ import com.example.demo.service.KafkaProducerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,13 +27,12 @@ public class KafkaController {
     }
 
     @GetMapping("/admin")
-    public void adminAccess() {
-        log.info("Kafka-Producer-Service: Access granted for admin!");
+    public ResponseEntity<String> adminAccess() {
+        return ResponseEntity.ok("Kafka-Producer-Service: Access granted for admin!");
     }
 
     @GetMapping("/user")
-    public void userAccess() {
-        log.info("Kafka-Producer-Service: Access granted for user!");
+    public ResponseEntity<String> userAccess() {
+        return ResponseEntity.ok("Kafka-Producer-Service: Access granted for user!");
     }
-
 }
